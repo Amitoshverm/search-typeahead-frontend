@@ -1,3 +1,141 @@
+# Search Typeahead — Frontend
+
+A React frontend for the Search Typeahead project — featuring debounced search input, keyboard navigation, frequency-ranked suggestions, and JWT authentication.
+
+---
+
+## Tech Stack
+
+- React 18
+- Framer Motion — page and modal animations
+- React Router DOM — client-side routing
+- Context API — global auth state
+
+---
+
+## Project Structure
+
+```
+src/
+  components/
+    NeuralBackground.jsx   # animated canvas background for search page
+    SearchBar.jsx          # input + search button + empty/no-results states
+    Suggestions.jsx        # dropdown list with prefix highlighting
+    InfoDrawer.jsx         # collapsible side drawer with project info
+    TypewriterBackground.jsx # animated typewriter demo on hero page
+  context/
+    AuthContext.jsx        # JWT token storage, login, logout
+  pages/
+    Login.jsx              # hero page + login/signup modal
+    Search.jsx             # protected search page
+  App.js                   # routes + protected route guard
+  App.css                  # global styles
+```
+
+---
+
+## Features
+
+**Search**
+- Debounced input — API called 300ms after user stops typing
+- Minimum 2 characters required to trigger suggestions
+- Top 5 suggestions ranked by global frequency
+- Prefix highlighted in suggestion results
+- Keyboard navigation — Arrow Up, Arrow Down, Enter, Escape
+- Clicking or selecting a suggestion fires a POST to update frequency
+- New words typed and submitted with Enter are saved to the backend
+
+**Auth**
+- JWT token stored in localStorage via AuthContext
+- Protected route — unauthenticated users redirected to /
+- Login and signup handled via modal on the hero page
+- Logout clears token and redirects to /
+
+**UX**
+- Empty state shown when search bar is empty
+- No results state shown when prefix returns nothing
+- Collapsible info drawer explaining architecture and design decisions
+- Animated mesh gradient background consistent across pages
+
+---
+
+## Pages
+
+### `/` — Hero page
+- Explains what the project does
+- Get Started and Login buttons open a modal
+- Modal handles both login and signup with smooth Framer Motion animation
+- Switching between login and signup does not require page navigation
+
+### `/search` — Search page (protected)
+- Full search typeahead experience
+- Logout button top right
+- "How it works" drawer bottom right
+
+---
+
+## Running locally
+
+```bash
+# install dependencies
+npm install
+
+# start development server
+npm start
+```
+
+App runs at `http://localhost:3000`
+
+Make sure the backend is running at `http://localhost:9090` before starting the frontend.
+
+---
+
+## Environment
+
+The backend URL is currently hardcoded as `http://localhost:9090`.
+
+For production, replace all occurrences with your deployed backend URL or use an `.env` file:
+
+```
+REACT_APP_API_URL=https://your-backend-url.com
+```
+
+Then in your components:
+
+```js
+fetch(`${process.env.REACT_APP_API_URL}/search/suggest?prefix=${query}`)
+```
+
+---
+
+## API Endpoints Used
+
+| Method | Endpoint | Auth required | Description |
+|--------|----------|---------------|-------------|
+| POST | /user/signup | No | Register new user |
+| POST | /user/login | No | Login, returns JWT |
+| GET | /search/suggest?prefix= | Yes | Get top 5 suggestions |
+| POST | /search/query?word= | Yes | Save search + update frequency |
+
+---
+
+## Known Limitations
+
+- Single words only — phrase search not supported
+- Lowercase only — input is sanitized to lowercase before sending
+- No fuzzy matching — typos return no results
+- Suggestions are global — not personalized per user yet
+
+---
+
+## Related
+
+- [Backend Repository](https://github.com/yourname/search-typeahead-backend)
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
