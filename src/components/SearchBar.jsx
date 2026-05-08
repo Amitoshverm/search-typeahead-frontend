@@ -25,7 +25,8 @@ function SearchBar({
         <button
           className="search-btn"
           onClick={() => onSearch(query)}
-          disabled={query.length === 0}>
+          disabled={query.length === 0 || loading}>
+          {/* {loading ? "Searching..." : "Search"} */}
           Search
         </button>
       </div>

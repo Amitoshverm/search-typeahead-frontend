@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-// import NeuralBackground from "../components/NeuralBackground";
 import SearchBar from "../components/SearchBar";
 import InfoDrawer from "../components/InfoDrawer";
 
@@ -22,13 +21,13 @@ function Search() {
 
     const timer = setTimeout(() => {
       setLoading(true);
-      fetch(`http://localhost:9090/search/suggest?prefix=${query}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/search/suggest?prefix=${query}`, {
         headers: { Authorization: `Bearer ${token}` }, // ← send JWT
       })
         .then((res) => res.json())
         .then((data) => {
           setSuggestions(Array.isArray(data) ? data : []);
-          setSuggestions(data);
+          // setSuggestions(data);
           setSelectedIndex(-1);
           setLoading(false);
         })
@@ -39,7 +38,7 @@ function Search() {
   }, [query, token]);
 
   function handleSelect(word) {
-    fetch(`http://localhost:9090/search/query?word=${word}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/search/query?word=${word}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` }, // ← send JWT
     });
@@ -73,7 +72,7 @@ function Search() {
 
   function handleLogout() {
     logout();
-    navigate("/login");
+    navigate("/");
   }
 
   return (

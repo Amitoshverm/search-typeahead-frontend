@@ -33,7 +33,7 @@ function Login() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:9090/user/login", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -49,6 +49,8 @@ function Login() {
     } catch {
       setError("Something went wrong.");
       setLoading(false);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -57,7 +59,7 @@ function Login() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:9090/user/signup", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ displayName, email, password }),
@@ -72,6 +74,8 @@ function Login() {
       navigate("/search");
     } catch {
       setError("Something went wrong.");
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   }
