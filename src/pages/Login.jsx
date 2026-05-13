@@ -106,8 +106,7 @@ function Login() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}>
-          In-memory Trie data structure and Redis caching — built to compete
-          with your typing speed.
+          In-memory Trie and Redis
         </motion.p>
 
         <motion.div
